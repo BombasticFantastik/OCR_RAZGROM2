@@ -15,7 +15,7 @@ def create_images():
 
     word='aaa'
 
-    selected_font=ImageFont.truetype('Comic Sans MS/Comic Sans MS.ttf',65)
+    selected_font=ImageFont.truetype('fonts/Comic Sans MS.ttf',65)
     #font=ImageFont.load("arial.pil")
 
     for i1 in range(len(alphabet)):
