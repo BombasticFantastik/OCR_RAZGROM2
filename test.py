@@ -1,41 +1,51 @@
-from PIL import Image
-from PIL import ImageDraw
-from PIL import ImageFont
-from random import randint
+from PIL import Image,ImageDraw,ImageFont
+from random import randint,choice
+import yaml
+
+
+option_path='config.yml'
+with open('config.yml','r') as file_option:
+    option=yaml.safe_load(file_option)
+
+
+#получаем список шрифтов для того что бы выбирать случайный из них
+selected_font=option['fonts']['comic_sans']
+
+
 
 
 #class Text_Creat
 
 
-def create_images():
-    #alphabet='abcdefghijklmnopqrstuvwxyz'
-    alphabet='abcdefgh'
-    back_img=Image.open('white.png')
+
     
+alphabet='abcdefgh'
+back_img=Image.open('white.png')
+    
+max_widh,max_height=back_img.size
+widh,height=randint(0,max_widh-200),randint(0,max_height-200)
     
 
-    word='aaa'
-
-    max_width,max_height=back_img.size
-
-    selected_font=ImageFont.truetype('Comic Sans MS/Comic Sans MS.ttf',65)
-    #font=ImageFont.load("arial.pil")
-    
-    for i1 in range(len(alphabet)):
-        for i2 in range(len(alphabet)):
-            for i3 in range(len(alphabet)):
-                word=alphabet[i1]+alphabet[i2]+alphabet[i3]
-
-                print(randint(0,max_width),randint(0,max_height))
-                
-                #img=back_img.copy()
-                #img_draw=ImageDraw.Draw(img)
-                #img_draw.text((28,28),word,font=selected_font,fill=(255,0,0))
-                #img.save(f'images/white_with_text{i1}{i2}{i3}.png')
-                #print(word)
+word='Привет'
 
 
-create_images()
+#копируем новую фотку и начинаем писать на фотке
+img=back_img.copy()
+img_draw=ImageDraw.Draw(img)
+
+img_size=(widh,height)
+
+
+selected_font=ImageFont.truetype(selected_font,65)
+
+img_draw.text(xy=img_size,text=word,font=selected_font,fill=(255,0,0))
+img.save(f'white_with_text.png')
+img=img.crop((widh,height,widh+300,height+100))
+img.save(f'white_with_text2.png')
+
+
+
+
    
     
     

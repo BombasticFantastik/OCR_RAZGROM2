@@ -8,8 +8,6 @@ with open('config.yml','r') as file_option:
     option=yaml.safe_load(file_option)
 
 
-#получаем список шрифтов для того что бы выбирать случайный из них
-fonts=[option['fonts'][font] for font in option['fonts']]
 
 
 
@@ -17,39 +15,33 @@ fonts=[option['fonts'][font] for font in option['fonts']]
 #class Text_Creat
 
 
-def create_images():
-    
-    alphabet='abcdefgh'
-    back_img=Image.open('white.png')
-    
-    max_widh,max_height=back_img.size
-    
+def create_sans_images(alphabet,image_path,lenght,count):
+    for cnt in range(count):
+        word=''
+        while len(word)<lenght:
+            word+=choice(alphabet)
 
-    word='aaa'
+        back_img=Image.open(image_path)        
+        max_widh,max_height=back_img.size
+        #копируем новую фотку и начинаем писать на фотке
+        img=back_img.copy()
+        img_draw=ImageDraw.Draw(img)
+        
+        
+        widh,height=randint(5,max_widh-150),randint(5,max_height-150)
+        img_size=(widh,height)
+        #выбираем случайный шрифт из конфига
+        selected_font=ImageFont.truetype(option['fonts']['comic_sans'],65)
+        img_draw.text(xy=img_size,text=word,font=selected_font,fill=(255,0,0))
+        img.save(f'images/comic_sans/data/{word}.png')
 
-    
-   
-
-    for i1 in range(len(alphabet)):
-        for i2 in range(len(alphabet)):
-            for i3 in range(len(alphabet)):
-                word=alphabet[i1]+alphabet[i2]+alphabet[i3]
-
-                #копируем новую фотку и начинаем писать на фотке
-                img=back_img.copy()
-                img_draw=ImageDraw.Draw(img)
-
-                img_size=(randint(0,max_widh-200),randint(0,max_height-200))
-
-                #выбираем случайный шрифт из конфига
-                selected_font=ImageFont.truetype(choice(fonts),65)
-
-                img_draw.text(xy=img_size,text=word,font=selected_font,fill=(255,0,0))
-                img.save(f'images/white_with_text{i1}{i2}{i3}.png')
-                print(word)
+        img_crop=img.crop((widh,height+20,widh+len(word)*36,height+100))
+        img_crop.save(f'images/comic_sans/labels/{word}.png')
+        
+alphabet=[symb for symb in 'abcdefghijklmnopqrstuvwxyz']
 
 
-create_images()
+create_sans_images(alphabet,'white.png',5,1)
    
     
     
