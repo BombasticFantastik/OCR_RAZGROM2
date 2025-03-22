@@ -1,5 +1,18 @@
 from PIL import Image,ImageDraw,ImageFont
-from random import randint
+from random import randint,choice
+import yaml
+
+
+option_path='config.yml'
+with open('config.yml','r') as file_option:
+    option=yaml.safe_load(file_option)
+
+
+
+fonts=[option['fonts'][font] for font in option['fonts']]
+print(fonts)
+print(1,1,1,1)
+
 
 
 #class Text_Creat
@@ -15,7 +28,7 @@ def create_images():
 
     word='aaa'
 
-    selected_font=ImageFont.truetype('fonts/Comic Sans MS.ttf',65)
+    
     #font=ImageFont.load("arial.pil")
 
     for i1 in range(len(alphabet)):
@@ -26,6 +39,10 @@ def create_images():
                 img_draw=ImageDraw.Draw(img)
 
                 img_size=(randint(0,max_widh-200),randint(0,max_height-200))
+
+                #выбираем случайный шрифт из конфига
+                
+                selected_font=ImageFont.truetype(choice(fonts),65)
 
                 img_draw.text(img_size,word,font=selected_font,fill=(255,0,0))
                 img.save(f'images/white_with_text{i1}{i2}{i3}.png')
