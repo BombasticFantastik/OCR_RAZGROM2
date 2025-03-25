@@ -32,11 +32,18 @@ def create_sans_images(alphabet,image_path,lenght,count):
         img_size=(widh,height)
         #выбираем случайный шрифт из конфига
         selected_font=ImageFont.truetype(option['fonts']['comic_sans'],65)
+        #сохраняем изображение
         img_draw.text(xy=img_size,text=word,font=selected_font,fill=(255,0,0))
         img.save(f'images/comic_sans/data/{word}.png')
-
+        #сохраняем обрезанное изображение
+        
         img_crop=img.crop((widh,height+20,widh+len(word)*36,height+100))
-        img_crop.save(f'images/comic_sans/labels/{word}.png')
+        img_crop.save(f'images/comic_sans/croped_images/{word}.png')
+        #сохраняем метки классов
+        label_file=open(f'images/comic_sans/labels/{word}.txt','w+')#w+ означает создание нового файла
+        label_file.write(f'{widh},{height+20},{widh+len(word)*36},{height+100}')
+        label_file.close()
+
         
 alphabet=[symb for symb in 'abcdefghijklmnopqrstuvwxyz']
 
