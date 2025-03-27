@@ -1,6 +1,7 @@
 from PIL import Image,ImageDraw,ImageFont
 from random import randint,choice
 import yaml
+from tqdm import tqdm
 
 
 option_path='config.yml'
@@ -16,7 +17,7 @@ with open('config.yml','r') as file_option:
 
 
 def create_sans_images(alphabet,image_path,lenght,count):
-    for cnt in range(count):
+    for cnt in tqdm(range(count)):
         word=''
         while len(word)<lenght:
             word+=choice(alphabet)

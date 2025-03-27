@@ -31,5 +31,4 @@ detector_optimizer=optim.Adam(detector_model.parameters())
 loss_func=nn.CrossEntropyLoss()
 
 
-
 train_loop(model=detector_model,optimizer=detector_optimizer,loss_func=loss_func,dataloader=train_dataloader)
