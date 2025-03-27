@@ -26,7 +26,8 @@ class Detector(Module):
             nn.MaxPool2d(2,2)
         )
         self.final_lay=nn.Sequential(
-            nn.Linear(hidden_size*4,output_size)
+            nn.Flatten(),
+            nn.Linear(50176,output_size)
             
             
         )
@@ -35,6 +36,7 @@ class Detector(Module):
         out0=self.lay0(initial_out)
         out1=self.lay1(out0)
         out2=self.lay2(out1)
+
         fin_out=self.final_lay(out2)
         return fin_out
     

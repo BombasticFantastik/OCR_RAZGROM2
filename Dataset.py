@@ -3,6 +3,7 @@ from os import listdir
 from os.path import join
 from PIL import Image
 from torchvision import transforms
+from torch import tensor
 
 
 class Images_Dataset(Dataset):
@@ -32,6 +33,8 @@ class Images_Dataset(Dataset):
     def __getitem__(self, idx):
         
         with open(self.all_labels[idx],'r') as f: label=f.read().split(',')
+        label=[float(i) for i in label]
+        label=tensor(label)
         return {
             'data':self.image_transforms(Image.open(self.all_data[idx])),
             'crop_image':self.image_transforms(Image.open(self.all_croped_images[idx])),
@@ -40,5 +43,3 @@ class Images_Dataset(Dataset):
         
 
 
-dataset=Images_Dataset('/home/artemybombastic/ArtemyBombasticGit/OCR_RAZGROM2/images/comic_sans/')
-print(dataset[0])

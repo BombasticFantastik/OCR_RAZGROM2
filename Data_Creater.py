@@ -48,9 +48,9 @@ def create_sans_images(alphabet,image_path,lenght,count):
 alphabet=[symb for symb in 'abcdefghijklmnopqrstuvwxyz']
 
 
-create_sans_images(alphabet,'white.png',3,15)
-create_sans_images(alphabet,'white.png',5,15)
-create_sans_images(alphabet,'white.png',6,15)
+create_sans_images(alphabet,'white.png',3,1500)
+create_sans_images(alphabet,'white.png',5,1500)
+create_sans_images(alphabet,'white.png',6,1500)
    
     
     
