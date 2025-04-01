@@ -13,9 +13,12 @@ import torchvision.transforms.functional as F
 
 def test_detector(model,batch):
     pred=model(batch['data'])
-    pred=pred[0]
-    img_crop=F.to_pil_image(batch['data'][0]).crop((pred[0],pred[1],pred[2],pred[3]))
-    img_crop.save(f'images/comic_sans/predicted/test.png')
+    pred=pred
+    print('------')
+    print(pred)
+    print(batch['label'])
+    #img_crop=F.to_pil_image(batch['data'][0]).crop((pred[0],pred[1],pred[2],pred[3]))
+    #img_crop.save(f'images/comic_sans/predicted/test.png')
 
 
 
@@ -40,9 +43,10 @@ dataloader=DataLoader(dataset=dataset,batch_size=16,shuffle=True,drop_last=True)
 
 model=Detector(3,64,4)
 
-if 'detector_weights.pth' in os.listdir('.'):
-    detector_weigths=torch.load('detector_weights.pth',weights_only=True)
-    model.state_dict(detector_weigths)
+#if 'detector_weights.pth' in os.listdir('.'):
+    # detector_weigths=torch.load('detector_weights.pth',weights_only=True)
+    # model.state_dict(detector_weigths)
+    # print(1)
 
 
 for batch in dataloader:
