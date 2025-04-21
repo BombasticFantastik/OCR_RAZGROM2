@@ -44,6 +44,6 @@ class Images_Dataset(Dataset):
         }
         
 df=Images_Dataset('data')
-print(df[0])
+
 
 

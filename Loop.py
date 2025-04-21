@@ -8,14 +8,17 @@ def train_loop(model,optimizer,loss_func,dataloader,device):
 
         
         pred=model(batch['img'].to(device))
-        loss=loss_func(pred,batch['label'].to(device))
-        loss_item=loss.item()
-        loss.backward()
+        #ctc_loss
+        imput_size=pred.shape[0]*pred.shape[1]
+        print(pred.shape)
+        # #loss=loss_func(pred,batch['label'],input_size,label_size)
+        # loss_item=loss.item()
+        # loss.backward()
 
-        optimizer.step()
+        # optimizer.step()
 
-        pbar.set_description(f'Loss: {loss_item}')
+        # pbar.set_description(f'Loss: {loss_item}')
 
-        torch.save(model.state_dict(),'weights/detector_weights.pth')
+        # torch.save(model.state_dict(),'weights/detector_weights.pth')
 
         
