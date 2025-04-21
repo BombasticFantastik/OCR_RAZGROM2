@@ -14,4 +14,3 @@ class CRNN(Module):
         out0=self.cnn_lay0(x)
         return out0
 
-model=CRNN(3,64,32)

@@ -7,7 +7,7 @@ def train_loop(model,optimizer,loss_func,dataloader,device):
         optimizer.zero_grad()
 
         
-        pred=model(batch['data'].to(device))
+        pred=model(batch['img'].to(device))
         loss=loss_func(pred,batch['label'].to(device))
         loss_item=loss.item()
         loss.backward()
@@ -16,6 +16,6 @@ def train_loop(model,optimizer,loss_func,dataloader,device):
 
         pbar.set_description(f'Loss: {loss_item}')
 
-        torch.save(model.state_dict(),'detector_weights.pth')
+        torch.save(model.state_dict(),'weights/detector_weights.pth')
 
         

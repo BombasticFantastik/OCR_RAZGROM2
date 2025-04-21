@@ -14,6 +14,8 @@ def create_sans_images(alphabet,image_path,lenght,count):
         while len(word)<lenght:
             word+=choice(alphabet)
 
+        
+
         back_img=Image.open(image_path)        
         max_widh,max_height=back_img.size
         #копируем новую фотку и начинаем писать на фотке

@@ -3,7 +3,6 @@ fonts:
   franclic_goth: fonts/ITCFranklinGothicStd-DmCpIt.ttf
   widock_bold: fonts/Widock TRIAL Bold.ttf
 
-paths:
-  comic_sans : '/home/artemybombastic/ArtemyBombasticGit/OCR_RAZGROM2/images/comic_sans/'
+path: 'data'
 
 device: cuda
