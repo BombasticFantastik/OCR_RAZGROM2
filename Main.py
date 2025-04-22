@@ -23,6 +23,12 @@ train_dataloader=DataLoader(dataset=train_dataset,batch_size=16,shuffle=True,dro
 
 
 model=CRNN(3,64,32).to(device)
+
+if f'weigts/model_weights.pth' in os.listdir('weights'):
+    weights_dict=torch.load(f'weights/model_weights.pth',weights_only=True)
+    model.load_state_dict(weights_dict)
+
+
 detector_optimizer=optim.Adam(model.parameters())
 loss_func=nn.CTCLoss()
 
