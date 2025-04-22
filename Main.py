@@ -14,7 +14,7 @@ with open(option_path,'r') as file_option:
     option=yaml.safe_load(file_option)
 
 device=option['device']
-print(device)
+
 
 
 train_dataset=Images_Dataset(option['path'])

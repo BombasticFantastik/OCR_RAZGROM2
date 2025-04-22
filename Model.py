@@ -5,30 +5,30 @@ class CRNN(Module):
     def __init__(self,input_size,hidden_dim,num_classes):
         super().__init__()
         self.cnn_lay0=nn.Sequential(
-            nn.Conv2d(input_size,hidden_dim,3,stride=2),
+            nn.Conv2d(input_size,hidden_dim,3,stride=2,padding=1),
             nn.ReLU(),
             nn.BatchNorm2d(hidden_dim),
             nn.MaxPool2d((2,2),(2,1))
         )
         
         self.cnn_lay1=nn.Sequential(
-            nn.Conv2d(hidden_dim,hidden_dim*2,3,stride=1),
+            nn.Conv2d(hidden_dim,hidden_dim*2,3,stride=1,padding=1),
             nn.ReLU(),
             nn.BatchNorm2d(hidden_dim*2),
             nn.MaxPool2d((2,1),(2,1))
         )
                 
         self.cnn_lay2=nn.Sequential(
-            nn.Conv2d(hidden_dim*2,hidden_dim*4,3,stride=1),
+            nn.Conv2d(hidden_dim*2,hidden_dim*4,3,stride=1,padding=1),
             nn.ReLU(),
             nn.BatchNorm2d(hidden_dim*4),
             nn.MaxPool2d((2,1),2)
         )
         self.cnn_lay3=nn.Sequential(
-            nn.Conv2d(hidden_dim*4,hidden_dim*8,3,stride=1),
+            nn.Conv2d(hidden_dim*4,hidden_dim*8,3,stride=1,padding=1),
             nn.ReLU(),
             nn.BatchNorm2d(hidden_dim*8),
-            nn.MaxPool2d((2,1),2)
+            nn.MaxPool2d((2,1),(2,1))
         )
         self.rec_part=nn.LSTM(hidden_dim*8,hidden_dim*4,num_layers=2,bidirectional=True)
         self.fin_lin=nn.Linear(hidden_dim*8,num_classes+1)
@@ -38,9 +38,9 @@ class CRNN(Module):
         out0=self.cnn_lay0(x)
         out1=self.cnn_lay1(out0)
         out2=self.cnn_lay2(out1)
-        print(out2.shape)
-        out3=self.cnn_lay3(out2)#мб 2_0_1
-        print(out3.shape)
+
+        out3=self.cnn_lay3(out2).squeeze(2).permute(2,0,1)#мб 2_0_1#попробовать батч фёрст
+
 
 
         
