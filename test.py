@@ -37,7 +37,7 @@ with open(option_path,'r') as file_option:
     option=yaml.safe_load(file_option)
 
 device=option['device']
-trans=transforms=transforms.Compose([transforms.Resize((32,128)),transforms.ToTensor()])
+trans=transforms=transforms.Compose([transforms.Resize((256,512)),transforms.ToTensor()])
 
 test_image=trans(PIL.Image.open('/home/artemybombastic/ArtemyBombasticGit/OCR_RAZGROM2/Test/ааамнчры_widock_bold.png'))
 #print(test_image.view(-1,3,32,128))
@@ -51,7 +51,8 @@ model=CRNN(3,64,32).to(device)
 if f'weigts/model_weights.pth' in os.listdir('weights'):
     weights_dict=torch.load(f'weights/model_weights.pth',weights_only=True)
     model.load_state_dict(weights_dict)
-out=model(test_image.view(-1,3,32,128).to(device))
+print(test_image.shape)
+out=model(test_image.view(-1,3,256,512).to(device))
 a=[int2let[str(i[0])] for i in out.argmax(2).tolist()]
 print(''.join(list(set(a))))
 

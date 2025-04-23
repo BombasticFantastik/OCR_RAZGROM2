@@ -13,7 +13,7 @@ class Images_Dataset(Dataset):
     def __init__(self,
                 path,
                 transforms=transforms.Compose([
-        transforms.Resize((32,128))
+        transforms.Resize((256,256))
         ,transforms.ToTensor()
         ])
         
@@ -43,7 +43,7 @@ class Images_Dataset(Dataset):
             'label':tensor([self.let2int[let] for let in self.all_data[idx].split('_')[0].replace('data/','')])
         }
         
-df=Images_Dataset('data')
+
 
 
 
