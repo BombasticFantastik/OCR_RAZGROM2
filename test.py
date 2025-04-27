@@ -53,7 +53,7 @@ if f'weigts/model_weights.pth' in os.listdir('weights'):
     model.load_state_dict(weights_dict)
 print(test_image.shape)
 out=model(test_image.view(-1,3,256,512).to(device))
-a=[int2let[str(i[0])] for i in out.argmax(2).tolist()]
+a=[int2let[str(i[0])] for i in torch.log_softmax(out,dim=2).argmax(2).tolist()]
 print(''.join(list(set(a))))
 
 
