@@ -10,7 +10,7 @@ import torch
 import PIL
 import json
 import torch.optim as optim
-
+from Utils import get_normal_word
 
 
 json_path='vocab/vocab.json'
@@ -48,12 +48,16 @@ test_image=trans(PIL.Image.open('/home/artemybombastic/ArtemyBombasticGit/OCR_RA
 
 model=CRNN(3,64,32).to(device)
 
-if f'weigts/model_weights.pth' in os.listdir('weights'):
+if f'model_weights.pth' in os.listdir('weights'):
     weights_dict=torch.load(f'weights/model_weights.pth',weights_only=True)
     model.load_state_dict(weights_dict)
-print(test_image.shape)
+else:
+    print(1)
+
 out=model(test_image.view(-1,3,256,512).to(device))
-a=[int2let[str(i[0])] for i in torch.log_softmax(out,dim=2).max(2).tolist()]
-print(''.join(list(set(a))))
+
+a=[int2let[str(let.item())] for let in out.argmax(2)]
+print(get_normal_word(''.join(a)))
+
 
 
