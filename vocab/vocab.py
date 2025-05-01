@@ -1,5 +1,5 @@
 import json
-alphabet=[symb for symb in 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя']
+alphabet=[symb for symb in 'абвгдеё-жзийклмнопрстуфхцчшщъыьэюя']
 
 let2int={let:i for i,let in enumerate(alphabet)}
 int2let={i:let for i,let in enumerate(alphabet)}
