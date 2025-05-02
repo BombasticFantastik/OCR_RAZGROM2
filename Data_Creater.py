@@ -10,9 +10,11 @@ with open('config.yml','r') as file_option:
 
 def create_sans_images(alphabet,image_path,lenght,count):
     for cnt in tqdm(range(count)):
-        word=''
-        while len(word)<lenght:
+        alphabet_with_no_space=[i for i in alphabet if i!=' ']
+        word=choice(alphabet_with_no_space)
+        while len(word)<lenght+1:
             word+=choice(alphabet)
+        word+=choice(alphabet_with_no_space)
 
         
 

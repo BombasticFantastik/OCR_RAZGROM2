@@ -37,6 +37,7 @@ class CRNN(Module):
             nn.MaxPool2d((2,1),(2,1))
         )
         self.rec_part=nn.LSTM(hidden_dim*16,hidden_dim*4,num_layers=1,bidirectional=True)
+        self.dropaut=nn.Dropout(0.1)
         self.fin_lin=nn.Linear(hidden_dim*8,num_classes+1)
 
 
@@ -60,7 +61,7 @@ class CRNN(Module):
 
         rec_out,_=self.rec_part(out4)
  
-        pred=self.fin_lin(rec_out)
+        pred=self.fin_lin(self.dropaut(rec_out))
         
         return pred
 

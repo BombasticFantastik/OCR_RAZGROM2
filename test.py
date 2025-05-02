@@ -39,7 +39,7 @@ with open(option_path,'r') as file_option:
 device=option['device']
 trans=transforms=transforms.Compose([transforms.Resize((256,512)),transforms.ToTensor()])
 
-test_image=trans(PIL.Image.open('/home/artemybombastic/ArtemyBombasticGit/OCR_RAZGROM2/Test/ааамнчры_widock_bold.png'))
+test_image=trans(PIL.Image.open('/home/artemybombastic/ArtemyBombasticGit/OCR_RAZGROM2/Test/а тючкялбф_comic_sans.png'))
 #print(test_image.view(-1,3,32,128))
 
 
