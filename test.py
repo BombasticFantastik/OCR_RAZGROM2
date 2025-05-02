@@ -46,7 +46,7 @@ test_image=trans(PIL.Image.open('/home/artemybombastic/ArtemyBombasticGit/OCR_RA
     
 
 
-model=CRNN(3,64,32).to(device)
+model=CRNN(3,64,33).to(device)
 
 if f'model_weights.pth' in os.listdir('weights'):
     weights_dict=torch.load(f'weights/model_weights.pth',weights_only=True)
