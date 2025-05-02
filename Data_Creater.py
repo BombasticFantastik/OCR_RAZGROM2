@@ -30,9 +30,9 @@ def create_sans_images(alphabet,image_path,lenght,count):
         selected_font=ImageFont.truetype(option['fonts'][selected_font_name],65)
         #сохраняем изображение
         img_draw.text(xy=img_size,text=word,font=selected_font,fill=(255,0,0))
-        img.save(f'data/{word.replace(' ','-')}_{selected_font_name}.png')
+        img.save(f'data/{word}_{selected_font_name}.png')
         
-alphabet=[symb for symb in 'абвгдеё жзийклмнопрстуфхцчшщъыьэюя']
+alphabet=[symb for symb in 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя']
 
 
 create_sans_images(alphabet,'white.png',8,3000)

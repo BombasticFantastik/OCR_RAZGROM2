@@ -22,7 +22,7 @@ train_dataset=Images_Dataset(option['path'])
 train_dataloader=DataLoader(dataset=train_dataset,batch_size=16,shuffle=True,drop_last=True)
 
 
-model=CRNN(3,64,32).to(device)
+model=CRNN(3,64,33).to(device)
 
 if f'model_weights.pth' in os.listdir('weights'):
     weights_dict=torch.load(f'weights/model_weights.pth',weights_only=True)
