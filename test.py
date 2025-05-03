@@ -56,7 +56,7 @@ else:
 
 out=model(test_image.view(-1,3,256,512).to(device))
 
-a=[int2let[str(let.item())] for let in out.argmax(2)]
+a=[int2let[str(let.item())] for let in torch.log_softmax(out,dim=2).argmax(2)]
 print(get_normal_word(''.join(a)))
 
 
