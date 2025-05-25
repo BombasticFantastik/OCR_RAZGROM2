@@ -53,6 +53,7 @@ class CRNN(Module):
 
 
         out4=self.cnn_lay4(out3)#мб 2_0_1#попробовать батч фёрст
+
         #print(out4.shape)
         out4=out4.squeeze(2).permute(2,0,1)
 

@@ -1,4 +1,4 @@
-from Dataset import Images_Dataset
+from Dataset import Images_Dataset,TestImages_Dataset
 from Model import CRNN
 from Loop import train_loop
 from torch.utils.data import DataLoader
@@ -15,7 +15,7 @@ with open(option_path,'r') as file_option:
 
 device=option['device']
 
-
+print(type(option['path']))
 
 train_dataset=Images_Dataset(option['path'])
 

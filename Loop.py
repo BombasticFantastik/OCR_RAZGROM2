@@ -18,9 +18,8 @@ def train_loop(epochs,model,optimizer,loss_func,dataloader,device):
             T = pred.size(0)
             N = pred.size(1)
             input_lengths = torch.full(size=(N,), fill_value=T, dtype=torch.int32)
-            target_lengths = torch.full(size=(N,), fill_value=8, dtype=torch.int32)
+            target_lengths = torch.full(size=(N,), fill_value=5, dtype=torch.int32)
             loss=loss_func(torch.log_softmax(pred,dim=2),batch['label'],input_lengths,target_lengths)
-            #loss=loss_func(pred,torch.ones((16,8)),input_lengths,target_lengths)
             loss_item=loss.item()
             losses.append(loss)
             loss.backward()
@@ -28,5 +27,6 @@ def train_loop(epochs,model,optimizer,loss_func,dataloader,device):
             pbar.set_description(f'Loss: {loss_item}')
             torch.save(model.state_dict(),'weights/model_weights.pth')
         print(f'mean loss:{sum(losses)/len(losses)}')
+
 
         

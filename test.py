@@ -1,6 +1,6 @@
 
 import PIL.Image
-from Dataset import Images_Dataset
+from Dataset import Images_Dataset,TestImages_Dataset
 from Loop import train_loop
 from torch.utils.data import DataLoader
 import yaml
@@ -37,16 +37,16 @@ with open(option_path,'r') as file_option:
     option=yaml.safe_load(file_option)
 
 device=option['device']
-trans=transforms=transforms.Compose([transforms.Resize((256,512)),transforms.ToTensor()])
+#trans=transforms=transforms.Compose([transforms.Resize((256,512)),transforms.ToTensor()])
 
-test_image=trans(PIL.Image.open('/home/artemybombastic/ArtemyBombasticGit/OCR_RAZGROM2/Test/а тючкялбф_comic_sans.png'))
-#print(test_image.view(-1,3,32,128))
-
+test_dataset=TestImages_Dataset('Test')
+test_dataloader=DataLoader(dataset=test_dataset,batch_size=16,shuffle=False,drop_last=False)
 
     
-
+loss_func=nn.CTCLoss()
 
 model=CRNN(3,64,33).to(device)
+#model=model.eval()
 
 if f'model_weights.pth' in os.listdir('weights'):
     weights_dict=torch.load(f'weights/model_weights.pth',weights_only=True)
@@ -54,10 +54,29 @@ if f'model_weights.pth' in os.listdir('weights'):
 else:
     print(1)
 
-out=model(test_image.view(-1,3,256,512).to(device))
+#model.eval()
 
-a=[int2let[str(let.item())] for let in torch.log_softmax(out,dim=2).argmax(2)]
-print(get_normal_word(''.join(a)))
+for batch in test_dataloader:
+    pred=model(batch['img'])
+    pred=torch.log_softmax(pred,dim=2)
+    T = pred.size(0)
+    N = pred.size(1)
+    input_lengths = torch.full(size=(N,), fill_value=T, dtype=torch.int32)
+    target_lengths = torch.full(size=(N,), fill_value=5, dtype=torch.int32)
+    loss=loss_func(pred,batch['label'],input_lengths,target_lengths)
+    result=[int2let[str(i.item())] for i in pred.max(2)[1].transpose(1,0)[0]]
+    result_label=[int2let[str(i.item())] for i in batch['label'][0]]
+
+    #print(''.join(result))
+    #result=[int2let[str(i.item())] for i in pred.max(2)[1].max(1)[1]]
+    
+    #print(result_label)
+    print(f'{''.join(result).replace('а','')}-----{''.join(result_label)}')
+    #print(f'{[i.item() for i in pred.argmax(0)[0]]}-----{batch['label'][0]}')
+
+
+
+#print(get_normal_word(''.join(a)))
 
 
 
