@@ -25,7 +25,7 @@ def create_sans_images(alphabet,image_path,lenght,count):
         img_draw=ImageDraw.Draw(img)
         
         
-        widh,height=randint(5,max_widh-1500),randint(5,max_height-200)
+        widh,height=randint(5,max_widh-1700),randint(5,max_height-200)
         img_size=(widh,height)
         #выбираем случайный шрифт из конфига
         selected_font_name=choice(list(option['fonts']))
@@ -36,7 +36,7 @@ def create_sans_images(alphabet,image_path,lenght,count):
         img_draw.text(xy=img_size,text=word,font=selected_font,fill=(255,0,0))
         img.save(f'data/{word}_{selected_font_name}.png')
         
-alphabet=[symb for symb in 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя ']
+alphabet=[symb for symb in ' абвгдеёжзийклмнопрстуфхцчшщъыьэюя']
 
 
 create_sans_images(alphabet,'white.png',5,9000)

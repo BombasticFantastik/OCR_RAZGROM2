@@ -66,12 +66,20 @@ for batch in test_dataloader:
     loss=loss_func(pred,batch['label'],input_lengths,target_lengths)
     result=[int2let[str(i.item())] for i in pred.max(2)[1].transpose(1,0)[0]]
     result_label=[int2let[str(i.item())] for i in batch['label'][0]]
-
-    #print(''.join(result))
-    #result=[int2let[str(i.item())] for i in pred.max(2)[1].max(1)[1]]
+    result=''.join(result)
+    # for i in range(len(result)):
+    #     if result[0]==' ':
+    #         result=result[1:]
+    result=result.replace('     ','7&7')
+    for i in range(len(result)):
+        result=result.replace(' ','')
+    result=result.replace('7&7',' ')
+    if result[0]==' ':
+        result=result[1:]
     
-    #print(result_label)
-    print(f'{''.join(result).replace('а','')}-----{''.join(result_label)}')
+
+    result_label=''.join(result_label)
+    print(f'{result}-----{result_label}')
     #print(f'{[i.item() for i in pred.argmax(0)[0]]}-----{batch['label'][0]}')
 
 

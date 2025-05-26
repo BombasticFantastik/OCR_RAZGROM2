@@ -72,8 +72,6 @@ class TestImages_Dataset(Dataset):
         return len(self.all_data)
 
     def __getitem__(self, idx):
-        
-        #with open(self.all_labels[idx],'r') as f: label=f.read().split(',')
         return {
             "img":self.image_transforms(Image.open(self.all_data[idx])),
             'label':tensor([self.let2int[let] for let in self.all_data[idx].split('_')[0].replace('Test/','')])
