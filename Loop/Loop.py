@@ -2,7 +2,7 @@ from tqdm import tqdm
 import torch
 import json
 
-json_path='/home/artemybombastic/ArtemyBombasticGit/OCR_RAZGROM2/Data/vocab/vocab.json'
+json_path=r'D:\Code\OCR_RAZGROM2\Data\vocab\vocab.json'
 with open(json_path,'r') as file_option:
     vocab=json.load(file_option)
 let2int=vocab['let2int']
@@ -25,7 +25,10 @@ def train_loop(epochs,model,optimizer,loss_func,dataloader,device):
             loss.backward()
             optimizer.step()
             pbar.set_description(f'Loss: {loss_item}')
-            torch.save(model.state_dict(),'/home/artemybombastic/ArtemyBombasticGit/OCR_RAZGROM2/Loop/weights/model_weights.pth')
+            try:
+                torch.save(model.state_dict(),r'D:\Code\OCR_RAZGROM2\Loop\weights\model_weights.pth')
+            except:
+                print('Ошибка загрузки')
         print(f'mean loss:{sum(losses)/len(losses)}')
 
 

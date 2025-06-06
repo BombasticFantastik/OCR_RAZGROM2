@@ -1,8 +1,11 @@
 import torch
 import sys 
-sys.path.insert(0, '/home/artemybombastic/ArtemyBombasticGit/OCR_RAZGROM2/Loop')
+sys.path.insert(0, 'D:\Code\OCR_RAZGROM2\Loop')
+#sys.path.insert(0, 'D:\Code\OCR_RAZGROM2\Image2Text_bot\')
 from torchvision import transforms
 import os
+#from Model import CRNN
+#from Model import CRNN
 from Model import CRNN
 import json
 
@@ -11,13 +14,13 @@ def get_text(model,image,int2let):
     if model==None:
         model=CRNN(3,64,33)
         if f'model_weights.pth' in os.listdir('Loop/weights'):
-            weights_dict=torch.load(f'Loop/weights/model_weights.pth',weights_only=True)
+            weights_dict=torch.load(f'D:\Code\OCR_RAZGROM2\Loop\weights\model_weights.pth',weights_only=True)
             model.load_state_dict(weights_dict)
         else:
             print(0)
 
     if int2let==None:
-        json_path='/home/artemybombastic/ArtemyBombasticGit/OCR_RAZGROM2/Data/vocab/vocab.json'
+        json_path='D:\Code\OCR_RAZGROM2\Data\vocab\vocab.json'
         with open(json_path,'r') as file_option:
             vocab=json.load(file_option)
         int2let=vocab['int2let']

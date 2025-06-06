@@ -4,8 +4,8 @@ import yaml
 from tqdm import tqdm
 
 
-option_path='config.yml'
-with open('config.yml','r') as file_option:
+option_path='D:\Code\OCR_RAZGROM2\config.yml'
+with open(option_path,'r') as file_option:
     option=yaml.safe_load(file_option)
 
 def create_sans_images(alphabet,image_path,lenght,count):
@@ -15,9 +15,6 @@ def create_sans_images(alphabet,image_path,lenght,count):
         while len(word)<lenght+1:
             word+=choice(alphabet)
         word+=choice(alphabet_with_no_space)
-
-
-        
 
         back_img=Image.open(image_path)        
         max_widh,max_height=back_img.size
@@ -34,19 +31,20 @@ def create_sans_images(alphabet,image_path,lenght,count):
         if selected_font_name=='widock_bold':
             size=170
 
-        selected_font=ImageFont.truetype(option['fonts'][selected_font_name],size)
+        selected_font=ImageFont.truetype(f'Data/{option['fonts'][selected_font_name]}',size)
 
         
         #сохраняем изображение
-        img_draw.text(xy=img_size,text=word,font=selected_font,fill=(randint(1,255),randint(1,255),randint(1,255)),)
-        img.save(f'data/{word}_{selected_font_name}.png')
+        #img_draw.text(xy=img_size,text=word,font=selected_font,fill=(randint(1,255),randint(1,255),randint(1,255)),)
+        img_draw.text(xy=img_size,text=word,font=selected_font,fill=(255,1,1))
+        img.save(f'Data/train_images/{word}_{selected_font_name}.png')
         
 alphabet=[symb for symb in ' абвгдеёжзийклмнопрстуфхцчшщъыьэюя']
 
 
-create_sans_images(alphabet,'backgrounds/city.jpg',6,300)
-create_sans_images(alphabet,'backgrounds/gradient0.jpg',6,300)
-create_sans_images(alphabet,'backgrounds/white.jpg',6,1000)
+#create_sans_images(alphabet,'backgrounds/city.jpg',6,300)
+#create_sans_images(alphabet,'backgrounds/gradient0.jpg',6,300)
+create_sans_images(alphabet,r'Data/backgrounds/white.jpg',6,1000)
    
     
     

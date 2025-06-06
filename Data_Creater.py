@@ -37,12 +37,12 @@ def create_sans_images(alphabet,image_path,lenght,count):
         #if selected_font_name=='widock_bold':
             #size=170
 
-        selected_font=ImageFont.truetype(option['fonts'][selected_font_name],230)
+        selected_font=ImageFont.truetype(f'Data/{option['fonts'][selected_font_name]}',230)
 
         
         #сохраняем изображение
         img_draw.text(xy=img_size,text=word,font=selected_font,fill=(255,0,0),)
-        img.save(f'Data/train_images/{word}_{selected_font_name}.png')
+        img.save(fr'Data/train_images/{word}_{selected_font_name}+D.png')
         
 alphabet=[symb for symb in ' абвгдеёжзийклмнопрстуфхцчшщъыьэюя']
 

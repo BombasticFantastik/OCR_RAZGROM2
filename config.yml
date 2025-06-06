@@ -1,10 +1,10 @@
 fonts:
-  comic_sans: Data/fonts/Comic Sans MS.ttf
-  franclic_goth: Data/fonts/Avenir Next W1G Bold.ttf
+  comic_sans: fonts/Comic Sans MS.ttf
+  franclic_goth: fonts/Avenir Next W1G Bold.ttf
   #widock_bold: Data/fonts/Widock TRIAL Bold.ttf
   #avenir_light: Data/fonts/Avenir Next W1G Light.ttf
   #avenir_next: Data/fonts/Avenir Next W1G  Italic.ttf
 
-path: '/home/artemybombastic/ArtemyBombasticGit/OCR_RAZGROM2/Data/train_images'
+path: 'D:\Code\OCR_RAZGROM2\Data\train_images'
 
 device: cpu
