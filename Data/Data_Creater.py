@@ -36,7 +36,7 @@ def create_sans_images(alphabet,image_path,lenght,count):
         
         #сохраняем изображение
         #img_draw.text(xy=img_size,text=word,font=selected_font,fill=(randint(1,255),randint(1,255),randint(1,255)),)
-        img_draw.text(xy=img_size,text=word,font=selected_font,fill=(255,1,1))
+        img_draw.text(xy=img_size,text=word,font=selected_font,fill=(randint(1,255),randint(1,255),randint(1,255)))
         img.save(f'Data/train_images/{word}_{selected_font_name}.png')
         
 alphabet=[symb for symb in ' абвгдеёжзийклмнопрстуфхцчшщъыьэюя']

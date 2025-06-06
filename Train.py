@@ -32,4 +32,4 @@ detector_optimizer=optim.Adam(model.parameters())
 loss_func=nn.CTCLoss()
 
 
-train_loop(3,model=model,optimizer=detector_optimizer,loss_func=loss_func,dataloader=train_dataloader,device=device)
+train_loop(8,model=model,optimizer=detector_optimizer,loss_func=loss_func,dataloader=train_dataloader,device=device)
