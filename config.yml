@@ -1,9 +1,9 @@
 fonts:
   comic_sans: fonts/Comic Sans MS.ttf
   franclic_goth: fonts/Avenir Next W1G Bold.ttf
-  #widock_bold: Data/fonts/Widock TRIAL Bold.ttf
-  #avenir_light: Data/fonts/Avenir Next W1G Light.ttf
-  #avenir_next: Data/fonts/Avenir Next W1G  Italic.ttf
+  widock_bold: fonts/Widock TRIAL Bold.ttf
+  avenir_light: fonts/Avenir Next W1G Light.ttf
+  avenir_next: fonts/Avenir Next W1G  Italic.ttf
 
 path: 'D:\Code\OCR_RAZGROM2\Data\train_images'
 
