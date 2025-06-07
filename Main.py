@@ -1,6 +1,7 @@
 import sys
 sys.path.insert(0, 'D:\Code\OCR_RAZGROM2\Image2Text_bot\.venv')
 sys.path.insert(0, 'D:\Code\OCR_RAZGROM2\Image2Text_bot\Loop')
+
 from Loop.Dataset import Images_Dataset,TestImages_Dataset
 from Loop.Model import CRNN
 from Loop.Loop import train_loop

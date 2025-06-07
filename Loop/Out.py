@@ -20,7 +20,7 @@ def get_text(model,image,int2let):
             print(0)
 
     if int2let==None:
-        json_path='D:\Code\OCR_RAZGROM2\Data\vocab\vocab.json'
+        json_path=r'D:/Code/OCR_RAZGROM2/Data/vocab/vocab.json'
         with open(json_path,'r') as file_option:
             vocab=json.load(file_option)
         int2let=vocab['int2let']

@@ -44,7 +44,7 @@ alphabet=[symb for symb in ' абвгдеёжзийклмнопрстуфхцч�
 
 #create_sans_images(alphabet,'backgrounds/city.jpg',6,300)
 #create_sans_images(alphabet,'backgrounds/gradient0.jpg',6,300)
-create_sans_images(alphabet,r'Data/backgrounds/white.jpg',6,1000)
+create_sans_images(alphabet,r'Data/backgrounds/white.jpg',6,6000)
    
     
     

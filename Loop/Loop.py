@@ -2,7 +2,9 @@ from tqdm import tqdm
 import torch
 import json
 
-json_path=r'D:\Code\OCR_RAZGROM2\Data\vocab\vocab.json'
+json_path=r"D:/Code/OCR_RAZGROM2/Data/vocab/vocab.json"
+#json_path=str(json_path)
+#print(json_path)
 with open(json_path,'r') as file_option:
     vocab=json.load(file_option)
 let2int=vocab['let2int']
