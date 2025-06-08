@@ -66,3 +66,88 @@ class CRNN(Module):
         
         return pred
 
+
+
+class Resnet_Block(Module):
+    def __init__(self,hid_dim):
+        super(self,Resnet_Block)
+
+        self.relu=nn.ReLU(inplace=True)
+
+        self.conv0=nn.Conv2d(hid_dim,hid_dim,kernel_size=3,padding=1)
+        self.norm0=nn.BatchNorm2d(hid_dim)
+        self.conv1=nn.Conv2d(hid_dim,hid_dim,kernel_size=3,padding=1)
+        self.norm1=nn.BatchNorm2d(hid_dim)
+
+    def forward(self,x):
+        out0=self.relu(self.norm0(self.conv0(x)))
+        out1=self.relu(self.norm1(self.conv1(out0))+x)
+
+
+
+
+class Resnet50_CRNN(Module):
+    def __init__(self,input_size,hiden_size,num_classes):
+        super(self,Resnet50_CRNN)
+
+
+        #входные слои
+        self.inital_conv=nn.Conv2d(input_size,hiden_size)#добавить аргументиов
+        self.inital_norm=nn.BatchNorm2d(hiden_size)
+        self.relu=nn.ReLU()
+        self.maxpool=nn.MaxPool2d(3,2,1)
+
+
+        #основные слои
+        self.lay0=self.make_layers(Resnet_Block,hiden_size,3,1)
+        self.lay1=self.make_layers(Resnet_Block,hiden_size*2,4,2)
+        self.lay2=self.make_layers(Resnet_Block,hiden_size*4,6,2)
+        self.lay3=self.make_layers(Resnet_Block,hiden_size*8,3,2)
+
+
+        #линейные слои
+        self.rec_part=nn.LSTM(hiden_size*8,hiden_size*4,num_layers=1,bidirectional=True)
+        self.fin_lin=nn.Linear(hiden_size*8,num_classes+1)
+
+
+    def make_layers(block,input_size,output_size,cnt,stride):
+        layers=[]
+
+        layers.append(block(input_size,output_size,stride=stride))
+
+        for i in range(1,cnt):
+            layers.append(block(output_size,output_size,stride=1))
+        return nn.Sequential(*layers)
+
+    def forward(self,x):
+        print(x.shape)
+        initial_out=self.inital_conv(x)
+        print(initial_out.shape)
+        initial_out=self.inital_norm(initial_out)
+        print(print(initial_out.shape))
+        initial_out=self.relu(initial_out)
+        print(initial_out.shape)
+        initial_out=self.maxpool(initial_out)
+        print(initial_out.shape)
+        out0=self.lay0(initial_out)
+        print(out0.shape)
+        out1=self.lay1(out0)
+        print(out0.shape)
+        out2=self.lay2(out1)
+        print(out0.shape)
+        out3=self.lay3(out2)
+        print(out0.shape)
+
+
+        lstm_out=self.rec_part(out3)
+        print(lstm_out.shape)
+        final_out=self.fin_lin(lstm_out)
+        print(final_out.shape)
+        return final_out
+
+
+        
+
+
+
+

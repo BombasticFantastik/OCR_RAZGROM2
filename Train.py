@@ -1,5 +1,5 @@
 from Loop.Dataset import Images_Dataset,TestImages_Dataset
-from Loop.Model import CRNN
+from Loop.Model import CRNN,Resnet50_CRNN
 from Loop.Loop import train_loop
 from torch.utils.data import DataLoader
 import yaml
@@ -20,7 +20,7 @@ train_dataset=Images_Dataset(option['path'])
 train_dataloader=DataLoader(dataset=train_dataset,batch_size=16,shuffle=True,drop_last=True)
 
 
-model=CRNN(3,64,33).to(device)
+model=Resnet50_CRNN(3,64,33).to(device)
 
 if f'model_weights.pth' in os.listdir('Loop/weights'):
     weights_dict=torch.load(f'Loop/weights/model_weights.pth',weights_only=True)
