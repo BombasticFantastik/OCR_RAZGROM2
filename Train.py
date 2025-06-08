@@ -1,6 +1,7 @@
 from Loop.Dataset import Images_Dataset,TestImages_Dataset
-from Loop.Model import CRNN,Resnet50_CRNN
+from Loop.Model import CRNN,Resnet50_CRNN,Resnet_Block
 from Loop.Loop import train_loop
+
 from torch.utils.data import DataLoader
 import yaml
 import torch.nn as nn 

@@ -1,6 +1,7 @@
 from torch import nn
 from torch.nn import Module
 
+
 class CRNN(Module):
     def __init__(self,input_size,hidden_dim,num_classes):
         super().__init__()
@@ -69,49 +70,46 @@ class CRNN(Module):
 
 
 class Resnet_Block(Module):
-    def __init__(self,hid_dim):
-        super(self,Resnet_Block)
+    def __init__(self,in_channels,hid_dim:int,stride:int):
+        super(Resnet_Block,self).__init__()
 
         self.relu=nn.ReLU(inplace=True)
 
-        self.conv0=nn.Conv2d(hid_dim,hid_dim,kernel_size=3,padding=1)
+        self.conv0=nn.Conv2d(in_channels,hid_dim,kernel_size=3,padding=1,stride=stride)
         self.norm0=nn.BatchNorm2d(hid_dim)
-        self.conv1=nn.Conv2d(hid_dim,hid_dim,kernel_size=3,padding=1)
+        self.conv1=nn.Conv2d(hid_dim,hid_dim,kernel_size=3,padding=1,stride=1)
         self.norm1=nn.BatchNorm2d(hid_dim)
 
     def forward(self,x):
+
         out0=self.relu(self.norm0(self.conv0(x)))
         out1=self.relu(self.norm1(self.conv1(out0))+x)
 
-
-
-
 class Resnet50_CRNN(Module):
     def __init__(self,input_size,hiden_size,num_classes):
-        super(self,Resnet50_CRNN)
-
+        super(Resnet50_CRNN,self).__init__()
 
         #входные слои
-        self.inital_conv=nn.Conv2d(input_size,hiden_size)#добавить аргументиов
+        self.inital_conv=nn.Conv2d(input_size,hiden_size,kernel_size=7,stride=2,padding=3)
         self.inital_norm=nn.BatchNorm2d(hiden_size)
         self.relu=nn.ReLU()
         self.maxpool=nn.MaxPool2d(3,2,1)
 
+        print(Resnet_Block)
 
         #основные слои
-        self.lay0=self.make_layers(Resnet_Block,hiden_size,3,1)
-        self.lay1=self.make_layers(Resnet_Block,hiden_size*2,4,2)
-        self.lay2=self.make_layers(Resnet_Block,hiden_size*4,6,2)
-        self.lay3=self.make_layers(Resnet_Block,hiden_size*8,3,2)
-
+        self.lay0=self.make_layers(Resnet_Block,hiden_size,hiden_size*2,3,1)
+        self.lay1=self.make_layers(Resnet_Block,hiden_size*2,hiden_size*4,4,2)
+        self.lay2=self.make_layers(Resnet_Block,hiden_size*4,hiden_size*8,6,2)
+        self.lay3=self.make_layers(Resnet_Block,hiden_size*8,hiden_size*8,3,2)
 
         #линейные слои
         self.rec_part=nn.LSTM(hiden_size*8,hiden_size*4,num_layers=1,bidirectional=True)
         self.fin_lin=nn.Linear(hiden_size*8,num_classes+1)
 
-
-    def make_layers(block,input_size,output_size,cnt,stride):
+    def make_layers(self,block,input_size,output_size,cnt,stride):
         layers=[]
+        print(type(block))
 
         layers.append(block(input_size,output_size,stride=stride))
 
@@ -137,8 +135,6 @@ class Resnet50_CRNN(Module):
         print(out0.shape)
         out3=self.lay3(out2)
         print(out0.shape)
-
-
         lstm_out=self.rec_part(out3)
         print(lstm_out.shape)
         final_out=self.fin_lin(lstm_out)
