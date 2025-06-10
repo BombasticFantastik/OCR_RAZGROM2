@@ -80,10 +80,19 @@ class Resnet_Block(Module):
         self.conv1=nn.Conv2d(hid_dim,hid_dim,kernel_size=3,padding=1,stride=1)
         self.norm1=nn.BatchNorm2d(hid_dim)
 
+
+        #для скип конекшена
+        self.skip_con=nn.Sequential(
+            nn.Conv2d(in_channels,hid_dim,kernel_size=1,stride=stride),
+            nn.BatchNorm2d(hid_dim)
+        )
+
     def forward(self,x):
 
         out0=self.relu(self.norm0(self.conv0(x)))
-        out1=self.relu(self.norm1(self.conv1(out0))+x)
+        out1=self.norm1(self.conv1(out0))
+        out1+=self.skip_con(x)
+        return self.relu(out1)
 
 class Resnet50_CRNN(Module):
     def __init__(self,input_size,hiden_size,num_classes):
@@ -109,7 +118,6 @@ class Resnet50_CRNN(Module):
 
     def make_layers(self,block,input_size,output_size,cnt,stride):
         layers=[]
-        print(type(block))
 
         layers.append(block(input_size,output_size,stride=stride))
 
@@ -118,27 +126,25 @@ class Resnet50_CRNN(Module):
         return nn.Sequential(*layers)
 
     def forward(self,x):
-        print(x.shape)
+        print(f'0:{x.shape}')
         initial_out=self.inital_conv(x)
         print(initial_out.shape)
         initial_out=self.inital_norm(initial_out)
-        print(print(initial_out.shape))
         initial_out=self.relu(initial_out)
-        print(initial_out.shape)
         initial_out=self.maxpool(initial_out)
-        print(initial_out.shape)
+        print(f'1:{initial_out.shape}')
         out0=self.lay0(initial_out)
-        print(out0.shape)
+        print(f'2:{out0.shape}')
         out1=self.lay1(out0)
-        print(out0.shape)
+        print(f'3:{out1.shape}')
         out2=self.lay2(out1)
-        print(out0.shape)
+        print(f'4:{out2.shape}')
         out3=self.lay3(out2)
-        print(out0.shape)
+        print(f'5:{out3.shape}')
         lstm_out=self.rec_part(out3)
-        print(lstm_out.shape)
+        print(f'lstm:{lstm_out.shape}')
         final_out=self.fin_lin(lstm_out)
-        print(final_out.shape)
+        print(f'final:{final_out.shape}')
         return final_out
 
 
