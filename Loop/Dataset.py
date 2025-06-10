@@ -13,7 +13,7 @@ class Images_Dataset(Dataset):
     def __init__(self,
                 path,
                 transforms=transforms.Compose([
-        transforms.Resize((256,256))
+        transforms.Resize((512,512))
         ,transforms.ToTensor()
         ])
         

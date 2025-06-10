@@ -16,7 +16,9 @@ def train_loop(epochs,model,optimizer,loss_func,dataloader,device):
         losses=[]
         for batch in (pbar:=tqdm(dataloader)):
             optimizer.zero_grad()
-            pred=model(batch['img'].to(device))        
+            pred=model(batch['img'].to(device))  
+            #print('--------------')
+            #print(torch.log_softmax(pred,dim=2),batch['label'].shape)      
             T = pred.size(0)
             N = pred.size(1)
             input_lengths = torch.full(size=(N,), fill_value=T, dtype=torch.int32)

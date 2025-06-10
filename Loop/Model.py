@@ -104,16 +104,17 @@ class Resnet50_CRNN(Module):
         self.relu=nn.ReLU()
         self.maxpool=nn.MaxPool2d(3,2,1)
 
-        print(Resnet_Block)
+
 
         #основные слои
-        self.lay0=self.make_layers(Resnet_Block,hiden_size,hiden_size*2,3,1)
-        self.lay1=self.make_layers(Resnet_Block,hiden_size*2,hiden_size*4,4,2)
-        self.lay2=self.make_layers(Resnet_Block,hiden_size*4,hiden_size*8,6,2)
-        self.lay3=self.make_layers(Resnet_Block,hiden_size*8,hiden_size*8,3,2)
+        self.lay0=self.make_layers(Resnet_Block,hiden_size,hiden_size,1,2)
+        self.lay1=self.make_layers(Resnet_Block,hiden_size,hiden_size*2,1,2)
+        self.lay2=self.make_layers(Resnet_Block,hiden_size*2,hiden_size*2,2,(2,1))
+        self.lay3=self.make_layers(Resnet_Block,hiden_size*2,hiden_size*4,2,(4,1))
+        self.lay4=self.make_layers(Resnet_Block,hiden_size*4,hiden_size*8,2,(4,1))
 
         #линейные слои
-        self.rec_part=nn.LSTM(hiden_size*8,hiden_size*4,num_layers=1,bidirectional=True)
+        self.rec_part=nn.LSTM(hiden_size*8,hiden_size*4,num_layers=1,bidirectional=True,batch_first=False)
         self.fin_lin=nn.Linear(hiden_size*8,num_classes+1)
 
     def make_layers(self,block,input_size,output_size,cnt,stride):
@@ -126,25 +127,41 @@ class Resnet50_CRNN(Module):
         return nn.Sequential(*layers)
 
     def forward(self,x):
-        print(f'0:{x.shape}')
+        #print(f'0:{x.shape}')
         initial_out=self.inital_conv(x)
-        print(initial_out.shape)
+        #print(initial_out.shape)
         initial_out=self.inital_norm(initial_out)
         initial_out=self.relu(initial_out)
         initial_out=self.maxpool(initial_out)
-        print(f'1:{initial_out.shape}')
+        #print(f'1:{initial_out.shape}')
         out0=self.lay0(initial_out)
-        print(f'2:{out0.shape}')
+        #print(f'2:{out0.shape}')
         out1=self.lay1(out0)
-        print(f'3:{out1.shape}')
+        #print(f'3:{out1.shape}')
         out2=self.lay2(out1)
-        print(f'4:{out2.shape}')
+        #print(f'4:{out2.shape}')
+
         out3=self.lay3(out2)
-        print(f'5:{out3.shape}')
-        lstm_out=self.rec_part(out3)
-        print(f'lstm:{lstm_out.shape}')
+        #print(f'5:{out3.shape}')
+
+
+        out4=self.lay4(out3)
+        #print(f'6:{out4.shape}')
+
+        N,C,H,W=out4.shape
+
+        out4=out4.view(N,-1,W)
+        #print(out4.shape)
+
+        
+
+        out4=out4.permute(2,0,1)
+        #print(out4.shape)
+
+        lstm_out,_=self.rec_part(out4)
+        #print(f'lstm:{lstm_out.shape}')
         final_out=self.fin_lin(lstm_out)
-        print(f'final:{final_out.shape}')
+        #print(f'final:{final_out.shape}')
         return final_out
 
 
