@@ -109,9 +109,9 @@ class Resnet50_CRNN(Module):
         #основные слои
         self.lay0=self.make_layers(Resnet_Block,hiden_size,hiden_size,1,2)
         self.lay1=self.make_layers(Resnet_Block,hiden_size,hiden_size*2,1,2)
-        self.lay2=self.make_layers(Resnet_Block,hiden_size*2,hiden_size*2,2,(2,1))
-        self.lay3=self.make_layers(Resnet_Block,hiden_size*2,hiden_size*4,2,(4,1))
-        self.lay4=self.make_layers(Resnet_Block,hiden_size*4,hiden_size*8,2,(4,1))
+        self.lay2=self.make_layers(Resnet_Block,hiden_size*2,hiden_size*2,1,(2,1))
+        self.lay3=self.make_layers(Resnet_Block,hiden_size*2,hiden_size*4,1,(4,1))
+        self.lay4=self.make_layers(Resnet_Block,hiden_size*4,hiden_size*8,1,(4,1))
 
         #линейные слои
         self.rec_part=nn.LSTM(hiden_size*8,hiden_size*4,num_layers=1,bidirectional=True,batch_first=False)
